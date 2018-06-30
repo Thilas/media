@@ -3,7 +3,7 @@ services:
 
   plex:
     # https://hub.docker.com/r/plexinc/pms-docker/
-    image: plexinc/pms-docker:latest
+    image: plexinc/pms-docker:public
     container_name: plex
     hostname: plex
     network_mode: host
@@ -33,26 +33,9 @@ services:
       - /volume1/media/music:/data/music
       - /volume1/media/tvshows:/data/tvshows
 
-  couchpotato:
-    # https://hub.docker.com/r/linuxserver/couchpotato/
-    image: linuxserver/couchpotato:latest
-    container_name: couchpotato
-    hostname: couchpotato
-    depends_on:
-      - plex
-    env_file:
-      - tz.env
-      - ids.env
-    ports:
-      - '5050:5050'
-    volumes:
-      - /volume1/homes/thomas/.media/couchpotato:/config
-      - /volume1/media/downloads/couchpotato:/downloads
-      - /volume1/media/movies:/movies
-
   medusa:
     # https://hub.docker.com/r/linuxserver/medusa/
-    image: linuxserver/medusa:latest
+    image: linuxserver/medusa
     container_name: medusa
     hostname: medusa
     depends_on:
@@ -64,12 +47,29 @@ services:
       - '8081:8081'
     volumes:
       - /volume1/homes/thomas/.media/medusa:/config
-      - /volume1/media/downloads/medusa:/downloads
+      - /volume1/media/downloads/tvshows:/downloads
       - /volume1/media/tvshows:/tv
+
+  radarr:
+    # https://hub.docker.com/r/linuxserver/radarr/
+    image: linuxserver/radarr
+    container_name: radarr
+    hostname: radarr
+    depends_on:
+      - plex
+    env_file:
+      - tz.env
+      - ids.env
+    ports:
+      - '7878:7878'
+    volumes:
+      - /volume1/homes/thomas/.media/radarr:/config
+      - /volume1/media/downloads/movies:/downloads
+      - /volume1/media/movies:/movies
 
   ubooquity:
     # https://hub.docker.com/r/linuxserver/ubooquity/
-    image: linuxserver/ubooquity:latest
+    image: linuxserver/ubooquity
     container_name: ubooquity
     hostname: ubooquity
     env_file:
