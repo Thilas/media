@@ -15,8 +15,8 @@ services:
       # This variable defines the additional IPs on which the server may be be found
       #- ADVERTISE_IP=http://<hostIPAddress>:32400/
       # The user / group id of the plex user / group created inside the container
-      - PLEX_UID=1026
-      - PLEX_GID=100
+      - PLEX_UID=%UID%
+      - PLEX_GID=%GID%
       # IP/netmask entries which allow access to the server without requiring authorization
       #- ALLOWED_NETWORKS=<allowedNetworks>
     #ports:
@@ -28,10 +28,10 @@ services:
     #  - '32412-32414:32412-32414/udp' # for current GDM network discovery
     #  - '32469:32469/tcp' # for access to the Plex DLNA Server
     volumes:
-      - /volume1/homes/thomas/.media/plex:/config
-      - /volume1/media/movies:/data/movies
-      - /volume1/media/music:/data/music
-      - /volume1/media/tvshows:/data/tvshows
+      - %HOME%/.media/plex:/config
+      - %MEDIA%/movies:/data/movies
+      - %MEDIA%/music:/data/music
+      - %MEDIA%/tvshows:/data/tvshows
 
   medusa:
     # https://hub.docker.com/r/linuxserver/medusa/
@@ -46,9 +46,9 @@ services:
     ports:
       - '8081:8081'
     volumes:
-      - /volume1/homes/thomas/.media/medusa:/config
-      - /volume1/media/downloads/tvshows:/downloads
-      - /volume1/media/tvshows:/tv
+      - %HOME%/.media/medusa:/config
+      - %MEDIA%/downloads/tvshows:/downloads
+      - %MEDIA%/tvshows:/tv
 
   radarr:
     # https://hub.docker.com/r/linuxserver/radarr/
@@ -63,9 +63,9 @@ services:
     ports:
       - '7878:7878'
     volumes:
-      - /volume1/homes/thomas/.media/radarr:/config
-      - /volume1/media/downloads/movies:/downloads
-      - /volume1/media/movies:/movies
+      - %HOME%/.media/radarr:/config
+      - %MEDIA%/downloads/movies:/downloads
+      - %MEDIA%/movies:/movies
 
   ubooquity:
     # https://hub.docker.com/r/linuxserver/ubooquity/
@@ -82,6 +82,6 @@ services:
       - '2202:2202'
       - '2203:2203'
     volumes:
-      - /volume1/homes/thomas/.media/ubooquity:/config
-      - /volume1/media/books:/books
-      - /volume1/media/comics:/comics
+      - %HOME%/.media/ubooquity:/config
+      - %MEDIA%/books:/books
+      - %MEDIA%/comics:/comics
